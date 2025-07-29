@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { PublicLayout } from "./layouts/public_layout";
+import PublicLayout from "./layouts/public_layout";
 import HomePage from "./routes/HomePage";
 import AuthLayout from "./layouts/auth_layout";
 import Signin from "./routes/Signin";
 import Signup from "./routes/Signup";
+import ProtectedLayout from "./layouts/protected_layout";
+import MainLayout from "./layouts/main_layout";
 function App() {
   return (
     <Router>
@@ -20,6 +22,13 @@ function App() {
         </Route>
 
         {/*Private routes */}
+        <Route
+          element={
+            <ProtectedLayout>
+              <MainLayout />
+            </ProtectedLayout>
+          }
+        ></Route>
       </Routes>
     </Router>
   );
