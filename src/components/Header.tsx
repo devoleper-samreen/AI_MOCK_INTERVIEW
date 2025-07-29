@@ -3,8 +3,8 @@ import Container from "./Container";
 import { LogoContainer } from "./LogoContainer";
 import { MainRoutes } from "@/lib/helper";
 import { NavLink } from "react-router-dom";
-//import { ProfileContainer } from "@/containers/profile-container";
-//import { ToggleContainer } from "@/containers/toggle-container";
+import { ProfileContainer } from "@/components/ProfileContainer";
+import { ToggleContainer } from "@/components/ToggleContainer";
 import { useAuth } from "@clerk/clerk-react";
 
 const Header = () => {
@@ -53,12 +53,10 @@ const Header = () => {
             </ul>
           </nav>
 
-          {/* <div className="ml-auto flex items-center gap-6">
-            
+          <div className="ml-auto flex items-center gap-6">
             <ProfileContainer />
-             
             <ToggleContainer />
-          </div> */}
+          </div>
         </div>
       </Container>
     </header>
