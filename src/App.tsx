@@ -6,6 +6,8 @@ import Signin from "./routes/Signin";
 import Signup from "./routes/Signup";
 import ProtectedLayout from "./layouts/protected_layout";
 import MainLayout from "./layouts/main_layout";
+import { Generate } from "./components/Generate";
+import { Dashboard } from "./routes/Dashboard";
 function App() {
   return (
     <Router>
@@ -28,7 +30,12 @@ function App() {
               <MainLayout />
             </ProtectedLayout>
           }
-        ></Route>
+        >
+          {/* all protected route here */}
+          <Route path="/generate/*" element={<Generate />}>
+            <Route index element={<Dashboard />} />
+          </Route>
+        </Route>
       </Routes>
     </Router>
   );
