@@ -10,7 +10,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-//import { toast } from "sonner";
+import { toast } from "sonner";
 
 export const Dashboard = () => {
   const [interviews, setInterviews] = useState<Interview[]>([]);
@@ -41,9 +41,9 @@ export const Dashboard = () => {
       },
       (error) => {
         console.log("Error on fetching : ", error);
-        // toast.error("Error..", {
-        //   description: "SOmething went wrong.. Try again later..",
-        // });
+        toast.error("Error..", {
+          description: "SOmething went wrong.. Try again later..",
+        });
         setLoading(false);
       }
     );

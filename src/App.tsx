@@ -8,6 +8,7 @@ import ProtectedLayout from "./layouts/protected_layout";
 import MainLayout from "./layouts/main_layout";
 import { Generate } from "./components/Generate";
 import { Dashboard } from "./routes/Dashboard";
+import CreateEditPage from "./routes/CreateEditPage";
 function App() {
   return (
     <Router>
@@ -34,6 +35,7 @@ function App() {
           {/* all protected route here */}
           <Route path="/generate/*" element={<Generate />}>
             <Route index element={<Dashboard />} />
+            <Route path=":interviewId" element={<CreateEditPage />} />
           </Route>
         </Route>
       </Routes>
