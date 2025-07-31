@@ -1,22 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "@/config/firebase.config";
 import type { User } from "@/types/index";
-import LoaderPage from "@/routes/LoaderPage";
+//import LoaderPage from "@/routes/LoaderPage";
 
-const AuthHandler = () => {
-  const { isSignedIn } = useAuth();
-  const { user } = useUser();
+const AuthHandler = ({
+  setLoading,
+}: {
+  setLoading: (value: boolean) => void;
+}) => {
+  const { isSignedIn, isLoaded: authLoaded } = useAuth();
+  const { user, isLoaded: userLoaded } = useUser();
 
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
+  //const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const storeUserData = async () => {
+      if (!authLoaded || !userLoaded) return;
+
       if (isSignedIn && user) {
         setLoading(true);
         try {
@@ -39,15 +45,17 @@ const AuthHandler = () => {
         } finally {
           setLoading(false);
         }
+      } else {
+        setLoading(false); // user is not signed in
       }
     };
 
     storeUserData();
-  }, [isSignedIn, user, navigate, pathname]);
+  }, [isSignedIn, user, navigate, pathname, authLoaded, userLoaded]);
 
-  if (loading) {
-    return <LoaderPage />;
-  }
+  // if (loading) {
+  //   return <LoaderPage />;
+  // }
 
   return null;
 };
