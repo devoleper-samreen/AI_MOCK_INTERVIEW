@@ -13,7 +13,7 @@ function App() {
     <Router>
       <Routes>
         {/* public routes */}
-        <Route element={<PublicLayout />}>
+        <Route path="/" element={<PublicLayout />}>
           <Route index element={<HomePage />} />
         </Route>
 

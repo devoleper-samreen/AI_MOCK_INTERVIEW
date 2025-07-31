@@ -29,11 +29,13 @@ const AuthHandler = () => {
               email: user.primaryEmailAddress?.emailAddress || "",
               imageUrl: user.imageUrl,
               createdAt: serverTimestamp(),
-              updateAt: serverTimestamp(),
+              updatedAt: serverTimestamp(),
             };
 
             await setDoc(doc(db, "users", user.id), userData);
           }
+
+          //navigate("/dashboard");
         } catch (error) {
           console.log("Error on storing user data:", error);
         } finally {
@@ -43,7 +45,7 @@ const AuthHandler = () => {
     };
 
     storeUserData();
-  }, [isSignedIn, user, pathname, navigate]);
+  }, [isSignedIn, user, navigate]);
 
   if (loading) {
     return <LoaderPage />;
