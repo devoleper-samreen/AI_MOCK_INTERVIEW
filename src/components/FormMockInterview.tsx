@@ -10,15 +10,15 @@ import { Headings } from "@/components/Headings";
 import { Button } from "@/components/ui/button";
 import { Loader, Trash2 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-// import {
-//   FormControl,
-//   FormField,
-//   FormItem,
-//   FormLabel,
-//   FormMessage,
-// } from "@/components/ui/form";
-// import { Input } from "@/components/ui/input";
-// import { Textarea } from "@/components/ui/textarea";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 //import { chatSession } from "@/scripts/ai-studio";
 import {
   addDoc,
@@ -40,9 +40,7 @@ const formSchema = z.object({
     .min(1, "Position is required")
     .max(100, "Position must be 100 characters or less"),
   description: z.string().min(10, "Description is required"),
-  experience: z.coerce
-    .number()
-    .min(0, "Experience cannot be empty or negative"),
+  experience: z.number().min(0, "Experience cannot be empty or negative"),
   techStack: z.string().min(1, "Tech stack must be at least a character"),
 });
 
@@ -51,7 +49,19 @@ type FormData = z.infer<typeof formSchema>;
 export const FormMockInterview = ({ initialData }: FormMockInterview) => {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {},
+    defaultValues: initialData
+      ? {
+          position: initialData.position,
+          description: initialData.description,
+          experience: initialData.experience,
+          techStack: initialData.techStack,
+        }
+      : {
+          position: "",
+          description: "",
+          experience: 0,
+          techStack: "",
+        },
   });
 
   const { isValid, isSubmitting } = form.formState;
@@ -110,10 +120,11 @@ export const FormMockInterview = ({ initialData }: FormMockInterview) => {
             The questions should assess skills in ${data?.techStack} development and best practices, problem-solving, and experience handling complex requirements. Please format the output strictly as an array of JSON objects without any additional labels, code blocks, or explanations. Return only the JSON array with questions and answers.
             `;
 
-    const aiResult = await chatSession.sendMessage(prompt);
-    const cleanedResponse = cleanJsonResponse(aiResult.response.text());
+    // const aiResult = await chatSession.sendMessage(prompt);
+    // const cleanedResponse = cleanJsonResponse(aiResult.response.text());
 
-    return cleanedResponse;
+    // return cleanedResponse;
+    return null;
   };
 
   const onSubmit = async (data: FormData) => {
@@ -203,7 +214,7 @@ export const FormMockInterview = ({ initialData }: FormMockInterview) => {
 
       <div className="my-6"></div>
 
-      {/* <FormProvider {...form}>
+      <FormProvider {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full p-8 rounded-lg flex-col flex items-start justify-start gap-6 shadow-md "
@@ -315,7 +326,7 @@ export const FormMockInterview = ({ initialData }: FormMockInterview) => {
             </Button>
           </div>
         </form>
-      </FormProvider> */}
+      </FormProvider>
     </div>
   );
 };
