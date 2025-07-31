@@ -5,14 +5,14 @@ import { Navigate } from "react-router-dom";
 function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const { isLoaded, isSignedIn } = useAuth();
 
-  if (isLoaded) {
+  if (!isLoaded) {
     return <LoaderPage />;
   }
 
   if (!isSignedIn) {
     return <Navigate to={"/signin"} replace />;
   }
-  return children;
+  return <>{children}</>;
 }
 
 export default ProtectedLayout;

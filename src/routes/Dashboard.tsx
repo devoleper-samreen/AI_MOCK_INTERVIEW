@@ -19,7 +19,11 @@ export const Dashboard = () => {
   const { userId } = useAuth();
 
   useEffect(() => {
-    // set upa realtime listener even for the interviews collection where the userId matches
+    if (!userId) {
+      return;
+    }
+
+    console.log("userId:", userId);
 
     const interviewQuery = query(
       collection(db, "interviews"),

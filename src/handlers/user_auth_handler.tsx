@@ -34,8 +34,6 @@ const AuthHandler = () => {
 
             await setDoc(doc(db, "users", user.id), userData);
           }
-
-          //navigate("/dashboard");
         } catch (error) {
           console.log("Error on storing user data:", error);
         } finally {
@@ -45,7 +43,7 @@ const AuthHandler = () => {
     };
 
     storeUserData();
-  }, [isSignedIn, user, navigate]);
+  }, [isSignedIn, user, navigate, pathname]);
 
   if (loading) {
     return <LoaderPage />;
