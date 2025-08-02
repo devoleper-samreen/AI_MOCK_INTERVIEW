@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 //import { chatSession } from "@/scripts/ai-studio";
+import { askGemini } from "@/scripts";
 import {
   addDoc,
   collection,
@@ -120,11 +121,16 @@ export const FormMockInterview = ({ initialData }: FormMockInterview) => {
             The questions should assess skills in ${data?.techStack} development and best practices, problem-solving, and experience handling complex requirements. Please format the output strictly as an array of JSON objects without any additional labels, code blocks, or explanations. Return only the JSON array with questions and answers.
             `;
 
-    // const aiResult = await chatSession.sendMessage(prompt);
-    // const cleanedResponse = cleanJsonResponse(aiResult.response.text());
+    const response = await askGemini(prompt);
 
-    // return cleanedResponse;
-    return null;
+    try {
+      const cleaned = cleanJsonResponse(response);
+      console.log(cleaned);
+      return cleaned;
+    } catch (err) {
+      console.error("Failed to parse AI response:", err);
+      return null;
+    }
   };
 
   const onSubmit = async (data: FormData) => {
@@ -136,6 +142,7 @@ export const FormMockInterview = ({ initialData }: FormMockInterview) => {
         if (isValid) {
           // create a new mock interview
           const aiResult = await generateAiResult(data);
+          console.log(aiResult);
 
           await updateDoc(doc(db, "interviews", initialData?.id), {
             questions: aiResult,
