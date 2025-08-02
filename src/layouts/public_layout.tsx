@@ -19,7 +19,6 @@ const PublicLayout = () => {
 
   return (
     <div className="w-full">
-      {/* <AuthHandler /> */}
       <Header />
       <Outlet />
       <Footer />

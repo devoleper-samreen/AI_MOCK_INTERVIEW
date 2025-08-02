@@ -33,9 +33,9 @@ export const InterviewPin = ({
   onMockPage = false,
 }: InterviewPinProps) => {
   const navigate = useNavigate();
-
   const [loading, setLoading] = useState(false);
   const { userId } = useAuth();
+
   const onDelete = async () => {
     setLoading(true);
 

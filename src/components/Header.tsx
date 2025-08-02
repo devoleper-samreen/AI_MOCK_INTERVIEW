@@ -18,8 +18,8 @@ const Header = () => {
         <div className="flex items-center gap-4">
           {/* logo section */}
           <LogoContainer />
-          {/* nvigation section */}
 
+          {/* nvigation section */}
           <nav className="hidden md:flex items-center gap-3">
             <ul className="flex items-center gap-6">
               {MainRoutes.map((route) => (

@@ -17,8 +17,6 @@ const AuthHandler = ({
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
 
-  //const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     const storeUserData = async () => {
       if (!authLoaded || !userLoaded) return;
@@ -52,10 +50,6 @@ const AuthHandler = ({
 
     storeUserData();
   }, [isSignedIn, user, navigate, pathname, authLoaded, userLoaded]);
-
-  // if (loading) {
-  //   return <LoaderPage />;
-  // }
 
   return null;
 };
