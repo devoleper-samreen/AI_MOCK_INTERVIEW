@@ -1,5 +1,5 @@
 import { Headings } from "@/components/Headings";
-//import { InterviewPin } from "@/components/interview-pin";
+import { InterviewPin } from "@/components/InterviewPin";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -80,8 +80,7 @@ export const Dashboard = () => {
           ))
         ) : interviews.length > 0 ? (
           interviews.map((interview) => (
-            // <InterviewPin key={interview.id} data={interview} />
-            <h1>hello</h1>
+            <InterviewPin key={interview.id} data={interview} />
           ))
         ) : (
           <div className="md:col-span-3 w-full flex flex-grow items-center justify-center h-96 flex-col">
