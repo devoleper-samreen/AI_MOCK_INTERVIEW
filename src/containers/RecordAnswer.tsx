@@ -71,9 +71,10 @@ export const RecordAnswer = ({
     if (isRecording) {
       stopSpeechToText();
 
-      if (userAnswer?.length < 30) {
+      if (userAnswer?.length < 10) {
+        //30
         toast.error("Error", {
-          description: "Your answer should be more than 30 characters",
+          description: "Your answer should be more than 10 characters",
         });
 
         return;

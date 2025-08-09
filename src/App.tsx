@@ -11,6 +11,7 @@ import { Dashboard } from "./routes/Dashboard";
 import CreateEditPage from "./routes/CreateEditPage";
 import { MockLoadPage } from "./routes/MockLoadPage";
 import { MockInterviewPage } from "./routes/MockInterviewPage";
+import { Feedback } from "./routes/Feedback";
 function App() {
   return (
     <Router>
@@ -43,6 +44,7 @@ function App() {
               path="interview/:interviewId/start"
               element={<MockInterviewPage />}
             />
+            <Route path="feedback/:interviewId" element={<Feedback />} />
           </Route>
         </Route>
       </Routes>
