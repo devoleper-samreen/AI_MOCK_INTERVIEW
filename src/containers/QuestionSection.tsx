@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-
 import { TooltipButton } from "@/components/ToolTipButton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Volume2, VolumeX } from "lucide-react";
-//import { RecordAnswer } from "./record-answer";
+import { RecordAnswer } from "./RecordAnswer";
 
 interface QuestionSectionProps {
   questions: { question: string; answer: string }[];
@@ -80,11 +79,11 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
               />
             </div>
 
-            {/* <RecordAnswer
+            <RecordAnswer
               question={tab}
               isWebCam={isWebCam}
               setIsWebCam={setIsWebCam}
-            /> */}
+            />
           </TabsContent>
         ))}
       </Tabs>

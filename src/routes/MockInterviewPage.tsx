@@ -3,13 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "sonner";
 import { Lightbulb } from "lucide-react";
-
 import { db } from "@/config/firebase.config";
 import LoaderPage from "@/routes/LoaderPage";
-
 import { CustomBreadCrumb } from "@/components/custom-breadcrumb";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-
 import type { Interview } from "@/types/index";
 import { QuestionSection } from "@/containers/QuestionSection";
 
