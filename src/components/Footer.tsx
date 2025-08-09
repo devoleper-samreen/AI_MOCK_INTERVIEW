@@ -1,5 +1,5 @@
 import React from "react";
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react"; // Import Lucide icons
+import { Linkedin, Github, Mail, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import Container from "@/components/Container";
 import { MainRoutes } from "@/lib/helper";
@@ -89,23 +89,22 @@ const Footer = () => {
             <h3 className="font-bold text-lg mb-4">Contact Us</h3>
             <p className="mb-4">123 AI Street, Tech City, 12345</p>
             <div className="flex gap-4">
+              <a href="tel:9411706695" className="hover:text-blue-500">
+                <MessageCircle size={24} />
+              </a>
+              <a
+                href="mailto:samreenmalik52292@gmail.com"
+                className="hover:text-blue-500"
+              >
+                <Mail size={24} />
+              </a>
               <SocialLink
-                href="https://facebook.com"
-                icon={<Facebook size={24} />}
-                hoverColor="text-blue-500"
-              />
-              <SocialLink
-                href="https://twitter.com"
-                icon={<Twitter size={24} />}
-                hoverColor="text-blue-400"
-              />
-              <SocialLink
-                href="https://instagram.com"
-                icon={<Instagram size={24} />}
+                href="https://github.com/devoleper-samreen"
+                icon={<Github size={24} />}
                 hoverColor="text-pink-500"
               />
               <SocialLink
-                href="https://linkedin.com"
+                href="www.linkedin.com/in/samreen-malik-b9484b291"
                 icon={<Linkedin size={24} />}
                 hoverColor="text-blue-700"
               />

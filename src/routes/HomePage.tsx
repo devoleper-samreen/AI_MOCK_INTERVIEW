@@ -10,7 +10,7 @@ const HomePage = () => {
   return (
     <div className="flex-col w-full pb-24">
       <Container>
-        <div className="my-8">
+        <div className="my-10">
           <h2 className="text-3xl text-center md:text-left md:text-6xl">
             <span className="font-extrabold md:text-8xl outline-text">
               AI Superpower
@@ -22,14 +22,14 @@ const HomePage = () => {
             improve your interview chances and skills
           </h2>
 
-          <p className="mt-4 text-muted-foreground text-sm">
+          <p className="mt-6 text-muted-foreground text-sm mb-24">
             Boost your interview skills and increase your success rate with
             AI-driven insights. Discover a smarter way to prepare, practice, and
             stand out.
           </p>
         </div>
 
-        <div className="flex w-full items-center justify-evenly md:px-12 md:py-16 md:items-center md:justify-end gap-12">
+        {/* <div className="flex w-full items-center justify-evenly md:px-12 md:py-16 md:items-center md:justify-end gap-12">
           <p className="text-3xl font-semibold text-gray-900 text-center">
             250k+
             <span className="block text-xl text-muted-foreground font-normal">
@@ -42,7 +42,7 @@ const HomePage = () => {
               Interview Aced
             </span>
           </p>
-        </div>
+        </div> */}
 
         {/* image sectiomn */}
 
@@ -60,8 +60,10 @@ const HomePage = () => {
           <div className="hidden md:block absolute w-80 bottom-4 right-4 px-4 py-2 rounded-md bg-white/60 backdrop-blur-md">
             <h2 className="text-neutral-800 font-semibold">Developer</h2>
             <p className="text-sm text-neutral-500">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-              distinctio natus, quos voluptatibus magni sapiente.
+              Create a realistic interview covering HTML, CSS, JavaScript
+              (ES6+), React, and debugging. Start with warm-up questions, then
+              go to coding challenges and scenario-based questions (like
+              explaining my code choices).
             </p>
 
             <Button className="mt-3">
