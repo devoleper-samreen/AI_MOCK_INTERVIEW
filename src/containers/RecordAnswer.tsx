@@ -14,7 +14,6 @@ import type { ResultType } from "react-hook-speech-to-text";
 import { TooltipButton } from "@/components/ToolTipButton";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-//import { chatSession } from "@/scripts/ai-studio";
 import { askGemini } from "@/scripts";
 import { SaveModal } from "@/components/SaveModal";
 import {
@@ -30,11 +29,13 @@ import {
 import { db } from "@/config/firebase.config";
 import { useAuth } from "@clerk/clerk-react";
 import { useParams } from "react-router-dom";
+import { Bot } from "lucide-react";
 
 interface RecordAnswerProps {
   question: { question: string; answer: string };
   isWebCam: boolean;
   setIsWebCam: (value: boolean) => void;
+  isPlaying: boolean;
 }
 
 interface AIResponse {
@@ -46,6 +47,7 @@ export const RecordAnswer = ({
   question,
   isWebCam,
   setIsWebCam,
+  isPlaying,
 }: RecordAnswerProps) => {
   const {
     interimResult,
@@ -123,13 +125,6 @@ export const RecordAnswer = ({
     `;
 
     try {
-      //const aiResult = await chatSession.sendMessage(prompt);
-
-      // const parsedResult: AIResponse = cleanJsonResponse(
-      //   aiResult.response.text()
-      // );
-      // return parsedResult;
-
       const aiRaw = await askGemini(prompt);
       const parsedResult: AIResponse = cleanJsonResponse(aiRaw);
       return parsedResult;
@@ -225,7 +220,7 @@ export const RecordAnswer = ({
   }, [results]);
 
   return (
-    <div className="w-full flex flex-col items-center gap-8 mt-4">
+    <div className="w-full flex flex-col items-center gap-8">
       {/* save modal */}
 
       <SaveModal
@@ -234,18 +229,6 @@ export const RecordAnswer = ({
         onConfirm={saveUserAnswer}
         loading={loading}
       />
-
-      <div className="w-full h-[400px] md:w-96 flex flex-col items-center justify-center border p-4 bg-gray-50 rounded-md">
-        {isWebCam ? (
-          <WebCam
-            onUserMedia={() => setIsWebCam(true)}
-            onUserMediaError={() => setIsWebCam(false)}
-            className="w-full h-full object-cover rounded-md"
-          />
-        ) : (
-          <WebcamIcon className="min-w-24 min-h-24 text-muted-foreground" />
-        )}
-      </div>
 
       {/* action buttons group */}
       <div className="flex items-center justify-center gap-3">
@@ -291,6 +274,35 @@ export const RecordAnswer = ({
           onClick={() => setOpen(!open)}
           disbaled={!aiResult}
         />
+      </div>
+
+      {/* Webcam + AI interviewer split */}
+      <div className="w-full flex flex-col md:flex-row gap-4">
+        {/* User webcam */}
+        <div
+          className={`flex-1 flex flex-col items-center justify-center border p-4 rounded-md h-[200px] md:h-[300px] ${
+            isRecording ? "speaking-highlight user-speaking" : ""
+          }`}
+        >
+          {isWebCam ? (
+            <WebCam
+              onUserMedia={() => setIsWebCam(true)}
+              onUserMediaError={() => setIsWebCam(false)}
+              className="w-full h-full object-cover rounded-md"
+            />
+          ) : (
+            <WebcamIcon className="min-w-24 min-h-24 text-muted-foreground" />
+          )}
+        </div>
+
+        {/* AI interviewer */}
+        <div
+          className={`flex-1 flex flex-col items-center justify-center border p-4 rounded-md h-[200px] md:h-[300px] ${
+            isPlaying ? "speaking-highlight bot-speaking" : ""
+          }`}
+        >
+          <Bot className="w-24 h-24 text-emerald-400" />
+        </div>
       </div>
 
       <div className="w-full mt-4 p-4 border rounded-md bg-gray-50">

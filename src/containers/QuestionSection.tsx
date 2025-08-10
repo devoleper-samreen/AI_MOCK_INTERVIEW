@@ -42,7 +42,7 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
     <div className="w-full min-h-96 border rounded-md p-4">
       <Tabs
         defaultValue={questions[0]?.question}
-        className="w-full space-y-12"
+        className="w-full space-y-4"
         orientation="vertical"
       >
         <TabsList className="bg-transparent w-full flex flex-wrap items-center justify-start gap-4">
@@ -83,6 +83,7 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
               question={tab}
               isWebCam={isWebCam}
               setIsWebCam={setIsWebCam}
+              isPlaying={isPlaying}
             />
           </TabsContent>
         ))}

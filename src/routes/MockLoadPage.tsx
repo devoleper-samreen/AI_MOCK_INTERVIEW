@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { doc, getDoc } from "firebase/firestore";
-import { Lightbulb, Sparkles, WebcamIcon } from "lucide-react";
-import WebCam from "react-webcam";
+import { Lightbulb, Sparkles } from "lucide-react";
 import { db } from "@/config/firebase.config";
 import LoaderPage from "@/routes/LoaderPage";
 import { CustomBreadCrumb } from "@/components/custom-breadcrumb";
@@ -17,7 +16,6 @@ export const MockLoadPage = () => {
   const { interviewId } = useParams<{ interviewId: string }>();
   const [interview, setInterview] = useState<Interview | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isWebCamEnabled, setIsWebCamEnabled] = useState(false);
 
   const navigate = useNavigate();
 
@@ -89,26 +87,6 @@ export const MockLoadPage = () => {
           </AlertDescription>
         </div>
       </Alert>
-
-      <div className="flex items-center justify-center w-full h-full">
-        <div className="w-full h-[400px] md:w-96 flex flex-col items-center justify-center border p-4 bg-gray-50 rounded-md">
-          {isWebCamEnabled ? (
-            <WebCam
-              onUserMedia={() => setIsWebCamEnabled(true)}
-              onUserMediaError={() => setIsWebCamEnabled(false)}
-              className="w-full h-full object-cover rounded-md"
-            />
-          ) : (
-            <WebcamIcon className="min-w-24 min-h-24 text-muted-foreground" />
-          )}
-        </div>
-      </div>
-
-      <div className="flex items-center justify-center">
-        <Button onClick={() => setIsWebCamEnabled(!isWebCamEnabled)}>
-          {isWebCamEnabled ? "Disable Webcam" : "Enable Webcam"}
-        </Button>
-      </div>
     </div>
   );
 };
