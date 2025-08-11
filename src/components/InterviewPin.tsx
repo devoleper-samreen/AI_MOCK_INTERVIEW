@@ -12,6 +12,7 @@ import { Newspaper, Pencil, Sparkles, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
 import {
   collection,
   doc,
@@ -76,7 +77,12 @@ export const InterviewPin = ({
   };
 
   return (
-    <Card className="p-4 rounded-md shadow-none hover:shadow-md shadow-gray-100 cursor-pointer transition-all space-y-4">
+    <Card
+      className="p-4 rounded-md shadow-none hover:shadow-md shadow-gray-100 cursor-pointer transition-all space-y-4"
+      onClick={() => {
+        navigate(`/generate/interview/${data.id}`, { replace: true });
+      }}
+    >
       <CardTitle>{data?.position}</CardTitle>
       <CardDescription>{data?.description}</CardDescription>
       <div className="w-full flex items-center gap-2 flex-wrap">
