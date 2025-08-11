@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { TooltipButton } from "@/components/ToolTipButton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,6 +16,7 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
     useState<SpeechSynthesisUtterance | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const tabRefs = useRef<(HTMLElement | null)[]>([]);
 
   const handlePlayQuestion = (qst: string) => {
     if (isPlaying && currentSpeech) {
@@ -53,6 +54,14 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
 
   // auto play after 5 seconds on first question
   useEffect(() => {
+    if (tabRefs.current[activeIndex]) {
+      tabRefs.current[activeIndex].scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+    }
+
     if (questions.length > 0) {
       const timer = setTimeout(() => {
         handlePlayQuestion(questions[activeIndex].question);
@@ -88,9 +97,12 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
         className="w-full space-y-4"
         orientation="vertical"
       >
-        <TabsList className="bg-transparent w-full flex flex-wrap items-center justify-start gap-4">
+        <TabsList className="bg-transparent w-full flex items-center justify-between overflow-x-auto no-scrollbar gap-4 py-2">
           {questions?.map((tab, i) => (
             <TabsTrigger
+              ref={(el) => {
+                tabRefs.current[i] = el;
+              }}
               className={cn(
                 "data-[state=active]:bg-emerald-200 data-[state=active]:shadow-md text-xs px-2"
               )}
