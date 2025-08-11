@@ -30,6 +30,9 @@ import { db } from "@/config/firebase.config";
 import { useAuth } from "@clerk/clerk-react";
 import { useParams } from "react-router-dom";
 import { Bot } from "lucide-react";
+import { deleteDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 interface RecordAnswerProps {
   question: { question: string; answer: string };
@@ -67,6 +70,7 @@ export const RecordAnswer = ({
   const [aiResult, setAiResult] = useState<AIResponse | null>(null);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const { userId } = useAuth();
   const { interviewId } = useParams();
@@ -214,6 +218,80 @@ export const RecordAnswer = ({
     }
   };
 
+  const submitInterview = async () => {
+    try {
+      setLoading(true);
+
+      // 1. Get all answers for this interview
+      const answersSnap = await getDocs(
+        query(
+          collection(db, "userAnswers"),
+          where("mockIdRef", "==", interviewId),
+          where("userId", "==", userId)
+        )
+      );
+
+      if (answersSnap.empty) {
+        toast.error("No answers found", {
+          description: "You haven't answered any questions yet.",
+        });
+        return;
+      }
+
+      const answers = answersSnap.docs.map((doc) => doc.data());
+
+      // 2. Ask AI for overall feedback
+      const feedbackPrompt = `
+      Here are the user's answers with ratings:
+      ${JSON.stringify(answers, null, 2)}
+      Please provide an overall performance summary and final score out of 10.
+      Return JSON { finalScore: number, summary: string }
+    `;
+
+      const feedbackRaw = await askGemini(feedbackPrompt);
+      const feedbackParsed = cleanJsonResponse(feedbackRaw);
+
+      // 3. Check if already in givenInterviews
+      const givenSnap = await getDocs(
+        query(
+          collection(db, "givenInterviews"),
+          where("mockIdRef", "==", interviewId),
+          where("userId", "==", userId)
+        )
+      );
+
+      if (givenSnap.empty) {
+        await addDoc(collection(db, "givenInterviews"), {
+          mockIdRef: interviewId,
+          userId,
+          answers,
+          overallFeedback: feedbackParsed.summary,
+          finalScore: feedbackParsed.finalScore,
+          createdAt: serverTimestamp(),
+        });
+      }
+
+      if (!interviewId) {
+        console.error("Interview ID missing, cannot delete");
+        return;
+      }
+
+      // 4. Delete from interviews
+      await deleteDoc(doc(db, "interviews", interviewId));
+
+      // 5. Navigate to feedback screen
+      navigate(`/feedback/${interviewId}`);
+      //feedback/:interviewId
+    } catch (err) {
+      console.error(err);
+      toast.error("Error finishing interview", {
+        description: "Something went wrong",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     // combine all transcripts into a single answers
     const combinedTranscripts = results
@@ -279,6 +357,7 @@ export const RecordAnswer = ({
           onClick={() => setOpen(!open)}
           disbaled={!aiResult}
         />
+        <Button onClick={submitInterview}>Submit</Button>
       </div>
 
       {/* Webcam + AI interviewer split */}

@@ -12,7 +12,6 @@ import { Newspaper, Pencil, Sparkles, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Link } from "react-router-dom";
 import {
   collection,
   doc,

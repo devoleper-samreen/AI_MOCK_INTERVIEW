@@ -19,7 +19,6 @@ export const MockLoadPage = () => {
 
   const navigate = useNavigate();
 
-  // utils/fullscreen.ts
   const enterFullScreen = () => {
     const elem = document.documentElement;
     if (elem.requestFullscreen) {

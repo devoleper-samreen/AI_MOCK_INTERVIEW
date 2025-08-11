@@ -50,6 +50,20 @@ const Header = () => {
                   Take an Interview
                 </NavLink>
               )}
+
+              {userId && (
+                <NavLink
+                  className={({ isActive }) =>
+                    cn(
+                      "text-base text-neutral-600",
+                      isActive && "text-neutral-900 font-semibold"
+                    )
+                  }
+                  to={"/interview-history"}
+                >
+                  Interview History
+                </NavLink>
+              )}
             </ul>
           </nav>
 
