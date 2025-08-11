@@ -1,19 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { useAuth } from "@clerk/clerk-react";
 import LoaderPage from "@/routes/LoaderPage";
-import { CustomBreadCrumb } from "@/components/custom-breadcrumb";
 import { Headings } from "@/components/Headings";
-import { InterviewPin } from "@/components/InterviewPin";
 import {
   Accordion,
   AccordionContent,
@@ -22,14 +13,20 @@ import {
 } from "@/components/ui/accordion";
 
 import { db } from "@/config/firebase.config";
-import type { Interview, UserAnswer } from "@/types/index";
+import type { UserAnswer } from "@/types/index";
 import { cn } from "@/lib/utils";
 import { CircleCheck, Star } from "lucide-react";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 
+interface Interviews {
+  id: string;
+  position: string;
+  description: string;
+}
+
 export const Feedback = () => {
   const { interviewId } = useParams<{ interviewId: string }>();
-  const [interview, setInterview] = useState<Interview | null>(null);
+  const [interview, setInterview] = useState<Interviews | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [feedbacks, setFeedbacks] = useState<UserAnswer[]>([]);
   const [activeFeed, setActiveFeed] = useState("");
@@ -41,58 +38,43 @@ export const Feedback = () => {
   }
 
   useEffect(() => {
-    if (interviewId) {
-      const fetchInterview = async () => {
-        setIsLoading(true);
-        try {
-          const interviewDoc = await getDoc(doc(db, "interviews", interviewId));
-          if (interviewDoc.exists()) {
-            setInterview({ ...interviewDoc.data() } as Interview);
-          } else {
-            navigate("/generate", { replace: true });
-          }
-        } catch (error) {
-          console.log(error);
-          toast("Error", {
-            description: "Something went wrong. Please try again later..",
+    if (!interviewId) return;
+
+    const fetchGivenInterview = async () => {
+      setIsLoading(true);
+      try {
+        const givenInterviewQuery = query(
+          collection(db, "givenInterviews"),
+          where("mockIdRef", "==", interviewId),
+          where("userId", "==", userId)
+        );
+
+        const givenInterviewSnap = await getDocs(givenInterviewQuery);
+
+        if (!givenInterviewSnap.empty) {
+          const docData = givenInterviewSnap.docs[0].data();
+          console.log(docData);
+
+          setInterview({
+            position: docData.position,
+            description: docData.description,
+            id: interviewId,
           });
-        } finally {
-          setIsLoading(false);
+
+          setFeedbacks(docData.answers);
+        } else {
+          navigate("/generate", { replace: true });
         }
-      };
+      } catch (error) {
+        console.log(error);
+        toast.error("Error fetching feedback. Try again.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-      const fetchFeedbacks = async () => {
-        setIsLoading(true);
-        try {
-          const querSanpRef = query(
-            collection(db, "userAnswers"),
-            where("userId", "==", userId),
-            where("mockIdRef", "==", interviewId)
-          );
-
-          const querySnap = await getDocs(querSanpRef);
-
-          const interviewData: UserAnswer[] = querySnap.docs.map((doc) => {
-            return doc.data() as UserAnswer;
-          });
-
-          setFeedbacks(interviewData);
-        } catch (error) {
-          console.log(error);
-          toast("Error", {
-            description: "Something went wrong. Please try again later..",
-          });
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      fetchInterview();
-      fetchFeedbacks();
-    }
+    fetchGivenInterview();
   }, [interviewId, navigate, userId]);
-
-  //   calculate the ratings out of 10
 
   const overAllRating = useMemo(() => {
     if (feedbacks.length === 0) return "0.0";
@@ -110,20 +92,7 @@ export const Feedback = () => {
   }
 
   return (
-    <div className="flex flex-col w-full gap-8 py-5">
-      <div className="flex items-center justify-between w-full gap-2">
-        <CustomBreadCrumb
-          breadCrumbPage={"Feedback"}
-          breadCrumpItems={[
-            { label: "Mock Interviews", link: "/generate" },
-            {
-              label: `${interview?.position}`,
-              link: `/generate/interview/${interview?.id}`,
-            },
-          ]}
-        />
-      </div>
-
+    <div className="flex flex-col w-full gap-8 py-5 min-h-[90vh]">
       <Headings
         title="Congratulations !"
         description="Your personalized feedback is now available. Dive in to see your strengths, areas for improvement, and tips to help you ace your next interview."
@@ -135,8 +104,6 @@ export const Feedback = () => {
           {overAllRating} / 10
         </span>
       </p>
-
-      {interview && <InterviewPin data={interview} onMockPage />}
 
       <Headings title="Interview Feedback" isSubHeading />
 

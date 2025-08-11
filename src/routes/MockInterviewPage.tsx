@@ -51,7 +51,10 @@ export const MockInterviewPage = () => {
     <div className="flex flex-col w-full gap-8 py-2">
       {interview?.questions && interview?.questions.length > 0 && (
         <div className="w-full flex flex-col items-start gap-4">
-          <QuestionSection questions={interview?.questions} />
+          <QuestionSection
+            questions={interview?.questions}
+            interview={interview}
+          />
         </div>
       )}
     </div>

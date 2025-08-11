@@ -40,6 +40,7 @@ interface RecordAnswerProps {
   setIsWebCam: (value: boolean) => void;
   isPlaying: boolean;
   onSaveNext?: () => void;
+  interview: any;
 }
 
 interface AIResponse {
@@ -53,6 +54,7 @@ export const RecordAnswer = ({
   setIsWebCam,
   isPlaying,
   onSaveNext,
+  interview,
 }: RecordAnswerProps) => {
   const {
     interimResult,
@@ -268,6 +270,8 @@ export const RecordAnswer = ({
           overallFeedback: feedbackParsed.summary,
           finalScore: feedbackParsed.finalScore,
           createdAt: serverTimestamp(),
+          position: interview.position,
+          description: interview.description,
         });
       }
 

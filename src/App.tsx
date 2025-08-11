@@ -12,6 +12,7 @@ import CreateEditPage from "./routes/CreateEditPage";
 import { MockLoadPage } from "./routes/MockLoadPage";
 import { MockInterviewPage } from "./routes/MockInterviewPage";
 import { Feedback } from "./routes/Feedback";
+import { InterviewHistory } from "./routes/InterviewHistory";
 function App() {
   return (
     <Router>
@@ -44,8 +45,13 @@ function App() {
               path="interview/:interviewId/start"
               element={<MockInterviewPage />}
             />
-            <Route path="feedback/:interviewId" element={<Feedback />} />
+            <Route path="interview-history" element={<InterviewHistory />} />
+            <Route
+              path="interview-history/feedback/:interviewId"
+              element={<Feedback />}
+            />
           </Route>
+          {/* //<Route path="/feedback/:interviewId" element={<Feedback />} /> */}
         </Route>
       </Routes>
     </Router>

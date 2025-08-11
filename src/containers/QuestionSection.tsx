@@ -7,9 +7,13 @@ import { Volume2, VolumeX, Maximize, Minimize } from "lucide-react";
 
 interface QuestionSectionProps {
   questions: { question: string; answer: string }[];
+  interview: any;
 }
 
-export const QuestionSection = ({ questions }: QuestionSectionProps) => {
+export const QuestionSection = ({
+  questions,
+  interview,
+}: QuestionSectionProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isWebCam, setIsWebCam] = useState(true);
   const [currentSpeech, setCurrentSpeech] =
@@ -135,6 +139,7 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
             </div>
 
             <RecordAnswer
+              interview={interview}
               question={tab}
               isWebCam={isWebCam}
               setIsWebCam={setIsWebCam}
