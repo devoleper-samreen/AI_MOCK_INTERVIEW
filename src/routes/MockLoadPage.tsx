@@ -19,6 +19,20 @@ export const MockLoadPage = () => {
 
   const navigate = useNavigate();
 
+  // utils/fullscreen.ts
+  const enterFullScreen = () => {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if ((elem as any).webkitRequestFullscreen) {
+      // Safari
+      (elem as any).webkitRequestFullscreen();
+    } else if ((elem as any).msRequestFullscreen) {
+      // Old IE/Edge
+      (elem as any).msRequestFullscreen();
+    }
+  };
+
   if (!interviewId) {
     navigate("/generate", { replace: true });
   }
@@ -61,7 +75,7 @@ export const MockLoadPage = () => {
         />
 
         <Link to={`/generate/interview/${interviewId}/start`}>
-          <Button size={"sm"}>
+          <Button size={"sm"} onClick={enterFullScreen}>
             Start <Sparkles />
           </Button>
         </Link>

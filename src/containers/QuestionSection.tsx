@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { TooltipButton } from "@/components/ToolTipButton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,6 +14,7 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
   const [isWebCam, setIsWebCam] = useState(false);
   const [currentSpeech, setCurrentSpeech] =
     useState<SpeechSynthesisUtterance | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const handlePlayQuestion = (qst: string) => {
     if (isPlaying && currentSpeech) {
@@ -38,9 +39,25 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
     }
   };
 
+  // auto play after 5 seconds on first question
+  useEffect(() => {
+    if (questions.length > 0) {
+      const timer = setTimeout(() => {
+        handlePlayQuestion(questions[activeIndex].question);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [activeIndex, questions]);
+
   return (
     <div className="w-full min-h-96 border rounded-md p-4">
       <Tabs
+        value={questions[activeIndex]?.question}
+        onValueChange={(value) => {
+          const idx = questions.findIndex((q) => q.question === value);
+          setActiveIndex(idx);
+        }}
         defaultValue={questions[0]?.question}
         className="w-full space-y-4"
         orientation="vertical"
@@ -84,6 +101,11 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
               isWebCam={isWebCam}
               setIsWebCam={setIsWebCam}
               isPlaying={isPlaying}
+              onSaveNext={() => {
+                if (activeIndex < questions.length - 1) {
+                  setActiveIndex(activeIndex + 1);
+                }
+              }}
             />
           </TabsContent>
         ))}

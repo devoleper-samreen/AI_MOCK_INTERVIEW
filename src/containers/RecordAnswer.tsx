@@ -36,6 +36,7 @@ interface RecordAnswerProps {
   isWebCam: boolean;
   setIsWebCam: (value: boolean) => void;
   isPlaying: boolean;
+  onSaveNext?: () => void;
 }
 
 interface AIResponse {
@@ -48,6 +49,7 @@ export const RecordAnswer = ({
   isWebCam,
   setIsWebCam,
   isPlaying,
+  onSaveNext,
 }: RecordAnswerProps) => {
   const {
     interimResult,
@@ -206,6 +208,9 @@ export const RecordAnswer = ({
     } finally {
       setLoading(false);
       setOpen(false);
+      if (onSaveNext) {
+        onSaveNext(); // shift to next question
+      }
     }
   };
 
