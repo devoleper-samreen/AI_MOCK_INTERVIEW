@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { TooltipButton } from "@/components/ToolTipButton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Volume2, VolumeX } from "lucide-react";
 import { RecordAnswer } from "./RecordAnswer";
+import { Volume2, VolumeX, Maximize, Minimize } from "lucide-react";
 
 interface QuestionSectionProps {
   questions: { question: string; answer: string }[];
@@ -15,6 +15,7 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
   const [currentSpeech, setCurrentSpeech] =
     useState<SpeechSynthesisUtterance | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   const handlePlayQuestion = (qst: string) => {
     if (isPlaying && currentSpeech) {
@@ -39,6 +40,17 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
     }
   };
 
+  // Fullscreen toggle
+  const toggleFullScreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      setIsFullScreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullScreen(false);
+    }
+  };
+
   // auto play after 5 seconds on first question
   useEffect(() => {
     if (questions.length > 0) {
@@ -52,6 +64,20 @@ export const QuestionSection = ({ questions }: QuestionSectionProps) => {
 
   return (
     <div className="w-full min-h-96 border rounded-md p-4">
+      {/* Fullscreen Button */}
+      <div className="absolute top-2 right-2">
+        <TooltipButton
+          content={isFullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+          icon={
+            isFullScreen ? (
+              <Minimize className="min-w-5 min-h-5 text-muted-foreground" />
+            ) : (
+              <Maximize className="min-w-5 min-h-5 text-muted-foreground" />
+            )
+          }
+          onClick={toggleFullScreen}
+        />
+      </div>
       <Tabs
         value={questions[activeIndex]?.question}
         onValueChange={(value) => {
