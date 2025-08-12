@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/config/firebase.config";
 import { Eye } from "lucide-react";
 import { format } from "date-fns";
@@ -31,14 +31,13 @@ export const InterviewHistory = () => {
         const qSnap = await getDocs(
           query(
             collection(db, "givenInterviews"),
-            where("userId", "==", userId)
-            // orderBy("createdAt", "desc")
+            where("userId", "==", userId),
+            orderBy("createdAt", "desc")
           )
         );
 
         const data: InterviewData[] = qSnap.docs.map((doc) => {
           const d = doc.data();
-          console.log(d);
 
           return {
             id: doc.id,

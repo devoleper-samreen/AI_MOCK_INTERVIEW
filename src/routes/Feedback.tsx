@@ -84,7 +84,9 @@ export const Feedback = () => {
       0
     );
 
-    return (totalRatings / feedbacks.length).toFixed(1);
+    const divisor = Math.max(1, Math.floor(feedbacks.length / 3));
+
+    return (totalRatings / divisor).toFixed(1);
   }, [feedbacks]);
 
   if (isLoading) {
@@ -134,7 +136,7 @@ export const Feedback = () => {
               <AccordionContent className="px-5 py-6 bg-white rounded-b-lg space-y-5 shadow-inner">
                 <div className="text-lg font-semibold to-gray-700">
                   <Star className="inline mr-2 text-yellow-400" />
-                  Rating : {feed.rating}
+                  Rating : {feed.rating || 0}
                 </div>
 
                 <Card className="border-none space-y-3 p-4 bg-green-50 rounded-lg shadow-md">
