@@ -59,7 +59,7 @@ const Header = () => {
                       isActive && "text-neutral-900 font-semibold"
                     )
                   }
-                  to={"/generate/interview-history"}
+                  to={"/interview-history"}
                 >
                   Interview History
                 </NavLink>

@@ -268,7 +268,7 @@ export const RecordAnswer = ({
           userId,
           answers,
           overallFeedback: feedbackParsed.summary,
-          finalScore: feedbackParsed.finalScore,
+          finalScore: Math.ceil(feedbackParsed.finalScore),
           createdAt: serverTimestamp(),
           position: interview.position,
           description: interview.description,
@@ -284,8 +284,7 @@ export const RecordAnswer = ({
       await deleteDoc(doc(db, "interviews", interviewId));
 
       // 5. Navigate to feedback screen
-      navigate(`/feedback/${interviewId}`);
-      //feedback/:interviewId
+      navigate(`/nterview-history/feedback/${interviewId}`);
     } catch (err) {
       console.error(err);
       toast.error("Error finishing interview", {

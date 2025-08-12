@@ -5,6 +5,7 @@ import { db } from "@/config/firebase.config";
 import { Eye } from "lucide-react";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
+import LoaderPage from "./LoaderPage";
 
 interface InterviewData {
   id: string;
@@ -61,13 +62,19 @@ export const InterviewHistory = () => {
     fetchData();
   }, [userId]);
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <LoaderPage />
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 min-h-screen">
       <h1 className="text-2xl font-bold mb-4">Interview History</h1>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : interviews.length === 0 ? (
+      {interviews.length === 0 ? (
         <p>No interviews found.</p>
       ) : (
         <div className="overflow-x-auto border rounded-md">
@@ -85,7 +92,9 @@ export const InterviewHistory = () => {
               {interviews.map((interview) => (
                 <tr key={interview.id} className="border-t">
                   <td className="p-3">{interview.title}</td>
-                  <td className="p-3">{interview.description}</td>
+                  <td className="p-3 truncate max-w-16">
+                    {interview.description}
+                  </td>
                   <td className="p-3">{interview.finalScore}/10</td>
 
                   <td className="p-3">

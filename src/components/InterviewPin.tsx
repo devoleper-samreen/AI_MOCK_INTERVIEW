@@ -83,7 +83,9 @@ export const InterviewPin = ({
       }}
     >
       <CardTitle>{data?.position}</CardTitle>
-      <CardDescription>{data?.description}</CardDescription>
+      <CardDescription className="line-clamp-4">
+        {data?.description}
+      </CardDescription>
       <div className="w-full flex items-center gap-2 flex-wrap">
         {data.techStack.split(",").map((word, index) => (
           <Badge
@@ -126,7 +128,6 @@ export const InterviewPin = ({
               icon={<Pencil />}
               loading={false}
             />
-
             <TooltipButton
               content="Delete"
               buttonVariant={"ghost"}
@@ -141,14 +142,15 @@ export const InterviewPin = ({
               content="Feedback"
               buttonVariant={"ghost"}
               onClick={() => {
-                navigate(`/generate/feedback/${data.id}`, { replace: true });
+                navigate(`/interview-history/feedback/${data.id}`, {
+                  replace: true,
+                });
               }}
               disbaled={false}
               buttonClassName="hover:text-emerald-500"
               icon={<Newspaper />}
               loading={false}
             />
-
             <TooltipButton
               content="Start"
               buttonVariant={"ghost"}
