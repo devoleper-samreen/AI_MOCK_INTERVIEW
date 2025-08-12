@@ -9,7 +9,6 @@ import { CustomBreadCrumb } from "@/components/custom-breadcrumb";
 import { Button } from "@/components/ui/button";
 import { InterviewPin } from "@/components/InterviewPin";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-
 import type { Interview } from "@/types/index";
 
 export const MockLoadPage = () => {
@@ -62,7 +61,11 @@ export const MockLoadPage = () => {
   }, [interviewId, navigate]);
 
   if (isLoading) {
-    return <LoaderPage className="w-full h-[70vh]" />;
+    return (
+      <div className="flex items-center justify-center min-h-[80vh]">
+        <LoaderPage />
+      </div>
+    );
   }
 
   return (

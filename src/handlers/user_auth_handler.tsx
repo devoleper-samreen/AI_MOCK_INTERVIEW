@@ -4,8 +4,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "@/config/firebase.config";
 import type { User } from "@/types/index";
-//import LoaderPage from "@/routes/LoaderPage";
-
 const AuthHandler = ({
   setLoading,
 }: {
