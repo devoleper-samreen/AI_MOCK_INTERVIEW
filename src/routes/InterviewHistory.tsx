@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
-import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/config/firebase.config";
 import { Eye } from "lucide-react";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
-import LoaderPage from "./LoaderPage";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface InterviewData {
   id: string;
@@ -64,8 +64,26 @@ export const InterviewHistory = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <LoaderPage />
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        {[...Array(5)].map((_, idx) => (
+          <tr key={idx} className="border-t">
+            <td className="p-10">
+              <Skeleton className="h-8 w-28 bg-gray-200" />
+            </td>
+            <td className="p-4">
+              <Skeleton className="h-8 w-40 bg-gray-200" />
+            </td>
+            <td className="p-4">
+              <Skeleton className="h-8 w-10 bg-gray-200" />
+            </td>
+            <td className="p-4">
+              <Skeleton className="h-8 w-32 bg-gray-200" />
+            </td>
+            <td className="p-4">
+              <Skeleton className="h-8 w-6 bg-gray-200" />
+            </td>
+          </tr>
+        ))}
       </div>
     );
   }
