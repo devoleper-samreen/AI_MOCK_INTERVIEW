@@ -1,69 +1,44 @@
-# React + TypeScript + Vite
+# React AI Mock Interview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React AI Mock Interview is a cutting-edge web app that uses AI to simulate real mock interviews. It offers a smooth authentication system, a sleek interface, and advanced AI integration — making it an essential tool for anyone serious about interview prep.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **AI-Powered Mock Interviews**  
+  Uses Google Gemini AI to create realistic interview scenarios, evaluate your answers, and give personalized feedback.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Secure Authentication**  
+  Powered by Clerk for easy and safe user login and management.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Modern User Interface**  
+  Built with Shadcn UI to ensure a clean, responsive, and user-friendly experience.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- **Robust Data Management**  
+  Stores all user progress, interview stats, and settings securely in Firebase Firestore.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Dynamic Interview Customization**  
+  Tailor interviews by job role, difficulty, and domain to match your goals.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Tech Stack
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **Frontend:** React.js
+- **Authentication:** Clerk
+- **UI Framework:** Shadcn UI
+- **Database:** Google Firebase Firestore
+- **AI Integration:** Google Gemini AI
+
+---
+
+## Getting Started
+
+### Installation
+
+```bash
+git clone https://github.com/Vetrivel-VP/react-typescript-ai-mock-interview-november-2024.git
+cd react-ai-mock-interview
+
 ```
