@@ -45,15 +45,10 @@ function App() {
               path="interview/:interviewId/start"
               element={<MockInterviewPage />}
             />
-            {/* <Route path="interview-history" element={<InterviewHistory />} />
-            <Route
-              path="interview-history/feedback/:interviewId"
-              element={<Feedback />}
-            /> */}
           </Route>
           <Route path="/interview-history" element={<InterviewHistory />} />
           <Route
-            path="/interview-history/feedback/:interviewId"
+            path="/interview-history/:interviewId/feedback"
             element={<Feedback />}
           />
         </Route>

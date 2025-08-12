@@ -103,36 +103,34 @@ export const FormMockInterview = ({ initialData }: FormMockInterview) => {
   };
 
   const generateAiResult = async (data: FormData) => {
-    const prompt = `
-You are an experienced technical interviewer and prompt engineer.
-Generate a JSON array of realistic technical interview questions **and** their detailed answers based on the given job details.
-
-Rules for output:
-- Output must be a valid JSON array only — no labels, no markdown, no explanations.
-- Each object must have:
-  - "question": The interview question text
-  - "answer": A clear, detailed, and technically correct answer
-- Number of questions: between 12 to 20 (random count each time for realism).
-- At least 2 scenario-based / problem-solving questions.
-- At least 1 question on best practices & architecture.
-- At least 1 question coding question
-- Mix of easy, medium, and deep technical difficulty.
-- Avoid repeating questions.
-- Keep answers precise but informative.
-
-Job Information:
-- Job Position: ${data?.position}
-- Job Description: ${data?.description}
-- Years of Experience Required: ${data?.experience}
-- Tech Stacks: ${data?.techStack}
-
-The questions should test:
-- Knowledge of ${data?.techStack} development & best practices
-- Problem-solving and debugging skills
-- Handling complex requirements
-- Understanding of real-world project scenarios
-
-Return only the JSON array with no extra formatting.
+    const prompt = ` You are an experienced technical interviewer and prompt engineer.
+    Generate a JSON array of realistic technical interview questions **and** their detailed answers based on the given job details. The candidates are freshers.
+    Rules for output:
+    - Output must be a valid JSON array only — no labels, no markdown, no explanations.
+    - Each object must have:
+    - "question": The interview question text
+    - "answer": A clear, detailed, and technically correct answer
+    - Number of questions: between 12 to 20 (random count each time for realism).
+    - At least 2 scenario-based / problem-solving questions.
+    - At least 1 question on best practices & architecture.
+    - Mix of easy, medium, and deep technical difficulty.
+    - Avoid repeating questions.
+    - Keep answers precise but informative.
+    
+    Job Information:
+    - Job Position: ${data?.position}
+    - Job Description: ${data?.description}
+    - Years of Experience Required: ${data?.experience}
+    - Tech Stacks: ${data?.techStack}
+    
+    The questions should test:
+    - Knowledge of ${data?.techStack} development & best practices
+    - Problem-solving and debugging skills
+    - Handling complex requirements
+    - Understanding of real-world project scenarios
+    - 
+    
+    Return only the JSON array with no extra formatting.
 `;
 
     const response = await askGemini(prompt);

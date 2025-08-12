@@ -56,7 +56,7 @@ export const QuestionSection = ({
     }
   };
 
-  // auto play after 5 seconds on first question
+  // auto play after 1 seconds on first question
   useEffect(() => {
     if (tabRefs.current[activeIndex]) {
       tabRefs.current[activeIndex].scrollIntoView({

@@ -20,6 +20,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   query,
   serverTimestamp,
@@ -73,6 +74,7 @@ export const RecordAnswer = ({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { userId } = useAuth();
   const { interviewId } = useParams();
@@ -80,6 +82,7 @@ export const RecordAnswer = ({
   const recordUserAnswer = async () => {
     if (isRecording) {
       stopSpeechToText();
+      console.log(userAnswer);
 
       if (userAnswer?.length < 10) {
         //30
@@ -129,7 +132,11 @@ export const RecordAnswer = ({
       User Answer: "${userAns}"
       Correct Answer: "${qstAns}"
       Please compare the user's answer to the correct answer, and provide a rating (from 1 to 10) based on answer quality, and offer feedback for improvement.
-      Return the result in JSON format with the fields "ratings" (number) and "feedback" (string).
+      Return the result in JSON format with the fields "ratings" (number) and "feedback" (string)
+      Rules for feedback:
+      - Give short feedback in plain sentences (max 5 sentences).
+     - Do not use bullet points, headings, or lists.
+     - Focus on correctness and clarity..
     `;
 
     try {
@@ -223,6 +230,7 @@ export const RecordAnswer = ({
   const submitInterview = async () => {
     try {
       setLoading(true);
+      setIsSubmitting(true);
 
       // 1. Get all answers for this interview
       const answersSnap = await getDocs(
@@ -242,7 +250,34 @@ export const RecordAnswer = ({
 
       const answers = answersSnap.docs.map((doc) => doc.data());
 
-      // 2. Ask AI for overall feedback
+      if (!interviewId) {
+        console.error("Interview ID missing");
+        return;
+      }
+
+      // 2. Get full question list from interview
+      const interviewDoc = await getDoc(doc(db, "interviews", interviewId));
+
+      if (!interviewDoc.exists()) {
+        toast.error("Interview not found");
+        return;
+      }
+      const interviewData = interviewDoc.data();
+      const allQuestions = interviewData.questions || [];
+
+      // 3. Merge all questions with user answers
+      const mergedAnswers = allQuestions.map((q: any) => {
+        const userAnswer = answers.find((a) => a.question === q.question);
+        return {
+          question: q.question,
+          correct_ans: q.answer,
+          user_ans: userAnswer?.user_ans || "",
+          feedback: userAnswer?.feedback || "",
+          rating: userAnswer?.rating || null,
+        };
+      });
+
+      // 4. Ask AI for overall feedback
       const feedbackPrompt = `
       Here are the user's answers with ratings:
       ${JSON.stringify(answers, null, 2)}
@@ -253,7 +288,7 @@ export const RecordAnswer = ({
       const feedbackRaw = await askGemini(feedbackPrompt);
       const feedbackParsed = cleanJsonResponse(feedbackRaw);
 
-      // 3. Check if already in givenInterviews
+      // 5. Check if already in givenInterviews
       const givenSnap = await getDocs(
         query(
           collection(db, "givenInterviews"),
@@ -262,18 +297,42 @@ export const RecordAnswer = ({
         )
       );
 
+      // if (givenSnap.empty) {
+      //   await addDoc(collection(db, "givenInterviews"), {
+      //     mockIdRef: interviewId,
+      //     userId,
+      //     answers,
+      //     overallFeedback: feedbackParsed.summary,
+      //     finalScore: Math.ceil(feedbackParsed.finalScore),
+      //     createdAt: serverTimestamp(),
+      //     position: interview.position,
+      //     description: interview.description,
+      //   });
+      // }
+
       if (givenSnap.empty) {
         await addDoc(collection(db, "givenInterviews"), {
           mockIdRef: interviewId,
           userId,
-          answers,
+          answers: mergedAnswers,
           overallFeedback: feedbackParsed.summary,
           finalScore: Math.ceil(feedbackParsed.finalScore),
           createdAt: serverTimestamp(),
-          position: interview.position,
-          description: interview.description,
+          position: interviewData.position,
+          description: interviewData.description,
         });
       }
+
+      console.log({
+        mockIdRef: interviewId,
+        userId,
+        answers: mergedAnswers,
+        overallFeedback: feedbackParsed.summary,
+        finalScore: Math.ceil(feedbackParsed.finalScore),
+        createdAt: serverTimestamp(),
+        position: interviewData.position,
+        description: interviewData.description,
+      });
 
       if (!interviewId) {
         console.error("Interview ID missing, cannot delete");
@@ -281,10 +340,13 @@ export const RecordAnswer = ({
       }
 
       // 4. Delete from interviews
-      await deleteDoc(doc(db, "interviews", interviewId));
+      //await deleteDoc(doc(db, "interviews", interviewId));
+
+      //exit from full screen
+      await document.exitFullscreen();
 
       // 5. Navigate to feedback screen
-      navigate(`/nterview-history/feedback/${interviewId}`);
+      navigate(`/interview-history/${interviewId}/feedback`);
     } catch (err) {
       console.error(err);
       toast.error("Error finishing interview", {
@@ -292,6 +354,7 @@ export const RecordAnswer = ({
       });
     } finally {
       setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -360,7 +423,13 @@ export const RecordAnswer = ({
           onClick={() => setOpen(!open)}
           disbaled={!aiResult}
         />
-        <Button onClick={submitInterview}>Submit</Button>
+        <Button onClick={submitInterview} disabled={isSubmitting}>
+          {isSubmitting ? (
+            <Loader className="text-gray-50 animate-spin" />
+          ) : (
+            "Submit Interview"
+          )}
+        </Button>
       </div>
 
       {/* Webcam + AI interviewer split */}

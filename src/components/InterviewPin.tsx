@@ -139,19 +139,6 @@ export const InterviewPin = ({
             />
 
             <TooltipButton
-              content="Feedback"
-              buttonVariant={"ghost"}
-              onClick={() => {
-                navigate(`/interview-history/feedback/${data.id}`, {
-                  replace: true,
-                });
-              }}
-              disbaled={false}
-              buttonClassName="hover:text-emerald-500"
-              icon={<Newspaper />}
-              loading={false}
-            />
-            <TooltipButton
               content="Start"
               buttonVariant={"ghost"}
               onClick={() => {

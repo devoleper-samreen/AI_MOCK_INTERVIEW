@@ -64,26 +64,35 @@ export const InterviewHistory = () => {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        {[...Array(5)].map((_, idx) => (
-          <tr key={idx} className="border-t">
-            <td className="p-10">
-              <Skeleton className="h-8 w-28 bg-gray-200" />
-            </td>
-            <td className="p-4">
-              <Skeleton className="h-8 w-40 bg-gray-200" />
-            </td>
-            <td className="p-4">
-              <Skeleton className="h-8 w-10 bg-gray-200" />
-            </td>
-            <td className="p-4">
-              <Skeleton className="h-8 w-32 bg-gray-200" />
-            </td>
-            <td className="p-4">
-              <Skeleton className="h-8 w-6 bg-gray-200" />
-            </td>
-          </tr>
-        ))}
+      <div className="p-6 min-h-screen flex justify-center">
+        <div className="overflow-x-auto border rounded-md w-full max-w-5xl">
+          <table className="w-full text-sm">
+            <tbody>
+              {[...Array(5)].map((_, idx) => (
+                <tr key={idx} className="border-t">
+                  <td className="p-5">
+                    <Skeleton className="h-8 w-28 bg-gray-200 animate-pulse rounded" />
+                  </td>
+                  <td className="p-4">
+                    <Skeleton className="h-8 w-40 bg-gray-200 animate-pulse rounded" />
+                  </td>
+                  <td className="p-4">
+                    <Skeleton className="h-8 w-10 bg-gray-200 animate-pulse rounded" />
+                  </td>
+                  <td className="p-4">
+                    <Skeleton className="h-8 w-32 bg-gray-200 animate-pulse rounded" />
+                  </td>
+                  <td className="p-4">
+                    <Skeleton className="h-8 w-6 bg-gray-200 animate-pulse rounded" />
+                  </td>
+                  <td className="p-4">
+                    <Skeleton className="h-8 w-6 bg-gray-200 animate-pulse rounded" />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
@@ -124,7 +133,7 @@ export const InterviewHistory = () => {
                       : "N/A"}
                   </td>
                   <td className="p-3">
-                    <Link to={`feedback/${interview.mockIdRef}`}>
+                    <Link to={`${interview.mockIdRef}/feedback`}>
                       <Eye className="w-5 h-5" />
                     </Link>
                   </td>

@@ -44,7 +44,11 @@ export const MockInterviewPage = () => {
   }, [interviewId, navigate]);
 
   if (isLoading) {
-    return <LoaderPage className="w-full h-[70vh]" />;
+    return (
+      <div className="flex items-center justify-center min-h-[80vh]">
+        <LoaderPage />
+      </div>
+    );
   }
 
   return (

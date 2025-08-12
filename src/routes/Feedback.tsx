@@ -88,7 +88,11 @@ export const Feedback = () => {
   }, [feedbacks]);
 
   if (isLoading) {
-    return <LoaderPage className="w-full h-[70vh]" />;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <LoaderPage />
+      </div>
+    );
   }
 
   return (
@@ -109,17 +113,17 @@ export const Feedback = () => {
 
       {feedbacks && (
         <Accordion type="single" collapsible className="space-y-6">
-          {feedbacks.map((feed) => (
+          {feedbacks.map((feed, index) => (
             <AccordionItem
-              key={feed.id}
-              value={feed.id}
+              key={index}
+              value={String(index)}
               className="border rounded-lg shadow-md"
             >
               <AccordionTrigger
-                onClick={() => setActiveFeed(feed.id)}
+                onClick={() => setActiveFeed(String(index))}
                 className={cn(
                   "px-5 py-3 flex items-center justify-between text-base rounded-t-lg transition-colors hover:no-underline",
-                  activeFeed === feed.id
+                  activeFeed === String(index)
                     ? "bg-gradient-to-r from-purple-50 to-blue-50"
                     : "hover:bg-gray-50"
                 )}
@@ -151,7 +155,8 @@ export const Feedback = () => {
                   </CardTitle>
 
                   <CardDescription className="font-medium text-gray-700">
-                    {feed.user_ans}
+                    {feed.user_ans ||
+                      "You have not given the answer of this question."}
                   </CardDescription>
                 </Card>
 
@@ -162,7 +167,7 @@ export const Feedback = () => {
                   </CardTitle>
 
                   <CardDescription className="font-medium text-gray-700">
-                    {feed.feedback}
+                    {feed.feedback || "No feedback available."}
                   </CardDescription>
                 </Card>
               </AccordionContent>
