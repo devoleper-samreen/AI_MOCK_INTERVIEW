@@ -6,6 +6,7 @@ import { Eye } from "lucide-react";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 interface InterviewData {
   id: string;
@@ -101,7 +102,26 @@ export const InterviewHistory = () => {
       <h1 className="text-2xl font-bold mb-4">Interview History</h1>
 
       {interviews.length === 0 ? (
-        <p>No interviews found.</p>
+        <div className="md:col-span-3 w-full flex flex-grow items-center justify-center h-80 flex-col">
+          <img
+            src="/svg/not-found.svg"
+            className="w-44 h-44 object-contain"
+            alt=""
+          />
+
+          <h2 className="text-lg font-semibold text-muted-foreground">
+            No Data Found
+          </h2>
+
+          <p className="w-full md:w-96 text-center text-sm text-neutral-400 mt-4">
+            There is no available data to show. Please add some new mock
+            interviews
+          </p>
+
+          <Link to={"/generate"} className="mt-6">
+            <Button size={"sm"}>Start Interview</Button>
+          </Link>
+        </div>
       ) : (
         <div className="overflow-x-auto border rounded-md">
           <table className="w-full text-sm">

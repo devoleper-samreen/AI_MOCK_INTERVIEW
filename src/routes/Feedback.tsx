@@ -53,7 +53,6 @@ export const Feedback = () => {
 
         if (!givenInterviewSnap.empty) {
           const docData = givenInterviewSnap.docs[0].data();
-          console.log(docData);
 
           setInterview({
             position: docData.position,
