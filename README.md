@@ -1,4 +1,4 @@
-# React AI Mock Interview
+# AI Mock Interview
 
 React AI Mock Interview is a cutting-edge web app that uses AI to simulate real mock interviews. It offers a smooth authentication system, a sleek interface, and advanced AI integration — making it an essential tool for anyone serious about interview prep.
 
