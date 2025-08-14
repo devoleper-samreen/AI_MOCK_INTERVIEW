@@ -13,7 +13,15 @@ import { MockLoadPage } from "./routes/MockLoadPage";
 import { MockInterviewPage } from "./routes/MockInterviewPage";
 import { Feedback } from "./routes/Feedback";
 import { InterviewHistory } from "./routes/InterviewHistory";
+import { useEffect } from "react";
 function App() {
+  console.log("Firebase Key:", import.meta.env.VITE_FIREBASE_API_KEY);
+  console.log("Gemini Key:", import.meta.env.VITE_GEMINI_API_KEY);
+
+  useEffect(() => {
+    console.log("Firebase Key:", import.meta.env.VITE_FIREBASE_API_KEY);
+    console.log("Gemini Key:", import.meta.env.VITE_GEMINI_API_KEY);
+  }, []);
   return (
     <Router>
       <Routes>
