@@ -342,7 +342,9 @@ export const RecordAnswer = ({
       //await deleteDoc(doc(db, "interviews", interviewId));
 
       //exit from full screen
-      await document.exitFullscreen();
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      }
 
       // 5. Navigate to feedback screen
       navigate(`/interview-history/${interviewId}/feedback`);
