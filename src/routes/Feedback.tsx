@@ -18,15 +18,15 @@ import { cn } from "@/lib/utils";
 import { CircleCheck, Star } from "lucide-react";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 
-interface Interviews {
-  id: string;
-  position: string;
-  description: string;
-}
+// interface Interviews {
+//   id: string;
+//   position: string;
+//   description: string;
+// }
 
 export const Feedback = () => {
   const { interviewId } = useParams<{ interviewId: string }>();
-  const [interview, setInterview] = useState<Interviews | null>(null);
+  //const [interview, setInterview] = useState<Interviews | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [feedbacks, setFeedbacks] = useState<UserAnswer[]>([]);
   const [activeFeed, setActiveFeed] = useState("");
@@ -54,11 +54,11 @@ export const Feedback = () => {
         if (!givenInterviewSnap.empty) {
           const docData = givenInterviewSnap.docs[0].data();
 
-          setInterview({
-            position: docData.position,
-            description: docData.description,
-            id: interviewId,
-          });
+          // setInterview({
+          //   position: docData.position,
+          //   description: docData.description,
+          //   id: interviewId,
+          // });
 
           setFeedbacks(docData.answers);
         } else {

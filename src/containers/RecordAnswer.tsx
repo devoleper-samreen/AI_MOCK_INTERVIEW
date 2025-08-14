@@ -31,7 +31,7 @@ import { db } from "@/config/firebase.config";
 import { useAuth } from "@clerk/clerk-react";
 import { useParams } from "react-router-dom";
 import { Bot } from "lucide-react";
-import { deleteDoc } from "firebase/firestore";
+//import { deleteDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -55,7 +55,6 @@ export const RecordAnswer = ({
   setIsWebCam,
   isPlaying,
   onSaveNext,
-  interview,
 }: RecordAnswerProps) => {
   const {
     interimResult,
