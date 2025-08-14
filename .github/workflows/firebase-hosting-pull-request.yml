@@ -56,4 +56,4 @@ jobs:
       #     projectId: ai-mock-interview-db3e3
 
       # Deploy to preview channel for this PR
-      - run: firebase hosting:channel:deploy pr-${{ github.event.number }} --project ai-mock-interview-db3e3 --token ${{ secrets.FIREBASE_DEPLOY_TOKEN }}
+      # - run: firebase hosting:channel:deploy pr-${{ github.event.number }} --project ai-mock-interview-db3e3 --token ${{ secrets.FIREBASE_DEPLOY_TOKEN }}

@@ -41,6 +41,11 @@ jobs:
         with:
           version: 8 # pnpm version used
 
+      - name: Print github secrets
+        run: |
+          echo "FIREBASE API KEY ": ${{github.secrets.VITE_FIREBASE_API_KEY}}
+          echo "GEMINI API KEY ": ${{github.secrets.VITE_GEMINI_API_KEY}}
+
       # Create .env.production instead of .env
       - name: Create .env.production
         run: |
