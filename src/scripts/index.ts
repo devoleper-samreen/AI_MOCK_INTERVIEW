@@ -1,12 +1,24 @@
 import { GoogleGenAI } from "@google/genai";
 
-const genAI = new GoogleGenAI({
-  apiKey: import.meta.env.VITE_GEMINI_API_KEY,
-});
+
+let genAI: GoogleGenAI | null = null;
+
+export function getGenAI() {
+  if (!genAI) {
+    if (!import.meta.env.VITE_GEMINI_API_KEY) {
+      throw new Error("Gemini API key is missing!");
+    }
+    genAI = new GoogleGenAI({
+      apiKey: import.meta.env.VITE_GEMINI_API_KEY,
+    });
+  }
+  return genAI;
+}
 
 export async function askGemini(prompt: string) {
   try {
-    const result = await genAI.models.generateContent({
+    const instance = getGenAI();
+    const result = await instance.models.generateContent({
       model: "gemini-1.5-flash",
       contents: prompt,
     });
