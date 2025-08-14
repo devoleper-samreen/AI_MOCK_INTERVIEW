@@ -52,6 +52,11 @@ jobs:
           echo "VITE_FIREBASE_APP_ID=${{ secrets.VITE_FIREBASE_APP_ID }}" >> .env.production
           echo "VITE_GEMINI_API_KEY=${{ secrets.VITE_GEMINI_API_KEY }}" >> .env.production
 
+      - name: Check env vars
+        run: |
+          echo "FIREBASE API KEY: $VITE_FIREBASE_API_KEY"
+          echo "GEMINI API KEY: $VITE_GEMINI_API_KEY"
+
       # Install dependencies & build
       - run: pnpm install
       - run: pnpm run build -- --mode production
