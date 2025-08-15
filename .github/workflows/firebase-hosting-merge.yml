@@ -69,7 +69,7 @@ jobs:
 
         # Install pnpm
       - name: Install pnpm
-        run: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v3
 
         # Install dependencies
       - name: Install dependencies
