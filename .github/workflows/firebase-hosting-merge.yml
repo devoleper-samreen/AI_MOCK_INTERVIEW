@@ -66,11 +66,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: pnpm
 
         # Install pnpm
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: pnpm/action-setup@v3
 
         # Install dependencies
       - name: Install dependencies
