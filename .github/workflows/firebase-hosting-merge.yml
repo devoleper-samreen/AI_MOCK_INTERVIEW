@@ -115,5 +115,5 @@ jobs:
         with:
           args: deploy --only hosting
         env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_AI_MOCK_INTERVIEW_DB3E3 }}
-          PROJECT_ID: your-firebase-project-id
+          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_AI_MOCK_INTERVIEW_DB3E3 }}
+          PROJECT_ID: ai-mock-interview-db3e3
