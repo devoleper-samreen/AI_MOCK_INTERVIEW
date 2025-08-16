@@ -73,7 +73,7 @@ export const Dashboard = () => {
 
       <Separator className="my-4" />
 
-      <div className="md:grid md:grid-cols-3 mb-20">
+      <div className="md:grid md:grid-cols-3 mb-20 gap-4">
         {loading ? (
           Array.from({ length: 6 }).map((_, index) => (
             <Skeleton key={index} className="h-24 md:h-32 rounded-md" />

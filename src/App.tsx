@@ -13,7 +13,7 @@ import { MockLoadPage } from "./routes/MockLoadPage";
 import { MockInterviewPage } from "./routes/MockInterviewPage";
 import { Feedback } from "./routes/Feedback";
 import { InterviewHistory } from "./routes/InterviewHistory";
-import { useEffect } from "react";
+
 function App() {
   return (
     <Router>
